@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="mapper.UserInfoVOMapper" >
-  <resultMap id="BaseResultMap" type="husky.account.login.vo.UserInfoVO" >
+<mapper namespace="com.husky.account.login.vo.UserInfoVO" >
+  <resultMap id="BaseResultMap" type="com.husky.account.login.vo.UserInfoVO" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="account" property="account" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
@@ -21,11 +21,84 @@
     <result column="is_cancelled" property="isCancelled" jdbcType="CHAR" />
     <result column="is_forbidden" property="isForbidden" jdbcType="CHAR" />
   </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
   <sql id="Base_Column_List" >
     id, account, user_name, id_number, sex, age, password, email, telephone, birthday, 
     qq_account, wx_account, create_by, create_date, update_by, update_date, is_cancelled, 
     is_forbidden
   </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.husky.account.login.vo.UserInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_info_t
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -36,7 +109,13 @@
     delete from user_info_t
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="husky.account.login.vo.UserInfoVO" >
+  <delete id="deleteByExample" parameterType="com.husky.account.login.vo.UserInfoExample" >
+    delete from user_info_t
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.husky.account.login.vo.UserInfoVO" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -53,7 +132,7 @@
       #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{isCancelled,jdbcType=CHAR}, #{isForbidden,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="husky.account.login.vo.UserInfoVO" >
+  <insert id="insertSelective" parameterType="com.husky.account.login.vo.UserInfoVO" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -167,7 +246,120 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="husky.account.login.vo.UserInfoVO" >
+  <select id="countByExample" parameterType="com.husky.account.login.vo.UserInfoExample" resultType="java.lang.Integer" >
+    select count(*) from user_info_t
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <select id="" resultMap="BaseResultMap" parameterType="com.husky.account.login.vo.UserInfoVO">
+	  		SELECT
+		<include refid="Base_Column_List"></include>
+			FROM
+				user_info_t
+			WHERE
+				1 = 1
+			AND (
+			    1!=1
+			    <if test="">
+					OR account = #{account,jdbcType=VARCHAR}
+			    </if>
+				
+				OR telephone = #{telephone,jdbcType=VARCHAR}
+				OR email = #{email,jdbcType=VARCHAR}
+				OR qq_account = #{qqAccount,jdbcType=VARCHAR}
+			)
+			AND is_cancelled = "1"
+			AND is_forbidden = "1"
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_info_t
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idNumber != null" >
+        id_number = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=CHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.qqAccount != null" >
+        qq_account = #{record.qqAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxAccount != null" >
+        wx_account = #{record.wxAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isCancelled != null" >
+        is_cancelled = #{record.isCancelled,jdbcType=CHAR},
+      </if>
+      <if test="record.isForbidden != null" >
+        is_forbidden = #{record.isForbidden,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_info_t
+    set id = #{record.id,jdbcType=INTEGER},
+      account = #{record.account,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      id_number = #{record.idNumber,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=CHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      qq_account = #{record.qqAccount,jdbcType=VARCHAR},
+      wx_account = #{record.wxAccount,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      is_cancelled = #{record.isCancelled,jdbcType=CHAR},
+      is_forbidden = #{record.isForbidden,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.husky.account.login.vo.UserInfoVO" >
     update user_info_t
     <set >
       <if test="account != null" >
@@ -224,7 +416,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="husky.account.login.vo.UserInfoVO" >
+  <update id="updateByPrimaryKey" parameterType="com.husky.account.login.vo.UserInfoVO" >
     update user_info_t
     set account = #{account,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},

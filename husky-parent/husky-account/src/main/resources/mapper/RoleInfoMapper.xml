@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mapper.RoleInfoVOMapper" >
-  <resultMap id="BaseResultMap" type="husky.account.login.vo.RoleInfoVO" >
+  <resultMap id="BaseResultMap" type="com.husky.account.login.vo.RoleInfoVO" >
     <result column="id" property="id" jdbcType="VARCHAR" />
     <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
@@ -11,7 +11,7 @@
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
-  <insert id="insert" parameterType="husky.account.login.vo.RoleInfoVO" >
+  <insert id="insert" parameterType="com.husky.account.login.vo.RoleInfoVO" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -22,7 +22,7 @@
       #{isValid,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="husky.account.login.vo.RoleInfoVO" >
+  <insert id="insertSelective" parameterType="com.husky.account.login.vo.RoleInfoVO" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>

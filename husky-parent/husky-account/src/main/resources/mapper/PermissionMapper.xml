@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mapper.PermissionVOMapper" >
-  <resultMap id="BaseResultMap" type="husky.account.login.vo.PermissionVO" >
+  <resultMap id="BaseResultMap" type="com.husky.account.login.vo.PermissionVO" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="permission_code" property="permissionCode" jdbcType="VARCHAR" />
     <result column="permission_des" property="permissionDes" jdbcType="VARCHAR" />
@@ -25,7 +25,7 @@
     delete from permission_t
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="husky.account.login.vo.PermissionVO" >
+  <insert id="insert" parameterType="com.husky.account.login.vo.PermissionVO" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -36,7 +36,7 @@
       #{isValid,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="husky.account.login.vo.PermissionVO" >
+  <insert id="insertSelective" parameterType="com.husky.account.login.vo.PermissionVO" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -90,7 +90,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="husky.account.login.vo.PermissionVO" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.husky.account.login.vo.PermissionVO" >
     update permission_t
     <set >
       <if test="permissionCode != null" >
@@ -117,7 +117,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="husky.account.login.vo.PermissionVO" >
+  <update id="updateByPrimaryKey" parameterType="com.husky.account.login.vo.PermissionVO" >
     update permission_t
     set permission_code = #{permissionCode,jdbcType=VARCHAR},
       permission_des = #{permissionDes,jdbcType=VARCHAR},

@@ -20,4 +20,6 @@
         <value>UTF-8</value>
       </property>
     </bean>
+    <import resource="classpath*:spring/application-context-redis.xml"/>
+     <import resource="classpath*:spring/spring-mvc.xml"/>
 </beans>

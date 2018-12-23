@@ -86,8 +86,8 @@ public class GenericityDao  implements BaseDao {
 
 	@Override
 	public Long insertOne(String nameSpace, Object param) {
-		// TODO Auto-generated method stub
-		return null;
+		int insert = sessionTemplate.insert(nameSpace, param);
+		return (long) insert;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.husky.vo;
 
-import com.husky.enumeration.ResultEnum;
+import com.husky.enums.ResultEnum;
 
 import lombok.Data;
 
@@ -69,9 +69,9 @@ public class Result<T> {
      * @param <T>
      * @return
      */
-    public static <T> Result<T> error(String codeMsg) {
-        return new Result<>(codeMsg);
-    }
+//    public static <T> Result<T> error(String codeMsg) {
+//        return new Result<>(codeMsg);
+//    }
 
     /**
      * 失败的调用 将返回结果传入
@@ -79,9 +79,9 @@ public class Result<T> {
      * @param <T>
      * @return
      */
-    public static <T> Result<T> error(T data) {
-        return new Result<>(ResultEnum.ERROR.getCode(), ResultEnum.ERROR.getMsg(), data);
-    }
+//    public static <T> Result<T> error(T data) {
+//        return new Result<>(ResultEnum.ERROR.getCode(), ResultEnum.ERROR.getMsg(), data);
+//    }
 
     private Result(T data) {
         this.code = ResultEnum.SUCCESS.getCode();
@@ -89,11 +89,11 @@ public class Result<T> {
         this.data = data;
     }
 
-    private Result(String msg) {
-        this.code = ResultEnum.ERROR.getCode();
-        this.data = null;
-        this.msg = msg;
-    }
+//    private Result(String msg) {
+//        this.code = ResultEnum.ERROR.getCode();
+//        this.data = null;
+//        this.msg = msg;
+//    }
 
     private Result(ResultEnum resultEnum) {
         this.code = resultEnum.getCode();

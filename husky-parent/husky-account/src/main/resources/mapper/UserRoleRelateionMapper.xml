@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mapper.UserRoleRelateionMapper" >
-  <resultMap id="BaseResultMap" type="husky.account.login.vo.UserRoleRelateion" >
+  <resultMap id="BaseResultMap" type="com.husky.account.login.vo.UserRoleRelateion" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="role_id" property="roleId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
     delete from user_role_relation_t
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="husky.account.login.vo.UserRoleRelateion" >
+  <insert id="insert" parameterType="com.husky.account.login.vo.UserRoleRelateion" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -40,7 +40,7 @@
       #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="husky.account.login.vo.UserRoleRelateion" >
+  <insert id="insertSelective" parameterType="com.husky.account.login.vo.UserRoleRelateion" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
       select uuid_short()
     </selectKey>
@@ -106,7 +106,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="husky.account.login.vo.UserRoleRelateion" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.husky.account.login.vo.UserRoleRelateion" >
     update user_role_relation_t
     <set >
       <if test="roleId != null" >
@@ -139,7 +139,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="husky.account.login.vo.UserRoleRelateion" >
+  <update id="updateByPrimaryKey" parameterType="com.husky.account.login.vo.UserRoleRelateion" >
     update user_role_relation_t
     set role_id = #{roleId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},

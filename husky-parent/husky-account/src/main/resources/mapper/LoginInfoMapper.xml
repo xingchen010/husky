@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.LoginInfoVOMapper" >
+  <resultMap id="BaseResultMap" type="com.husky.account.login.vo.LoginInfoVO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="Last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="last_quit_time" property="lastQuitTime" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, Last_login_time, last_quit_time, created_by, created_date, update_by, 
+    update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_login_history_t
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_login_history_t
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.husky.account.login.vo.LoginInfoVO" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
+      select uuid_short()
+    </selectKey>
+    insert into user_login_history_t (id, account, Last_login_time, 
+      last_quit_time, created_by, created_date, 
+      update_by, update_date)
+    values (#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{lastQuitTime,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.husky.account.login.vo.LoginInfoVO" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
+      select uuid_short()
+    </selectKey>
+    insert into user_login_history_t
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="lastLoginTime != null" >
+        Last_login_time,
+      </if>
+      <if test="lastQuitTime != null" >
+        last_quit_time,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=VARCHAR},
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastQuitTime != null" >
+        #{lastQuitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.husky.account.login.vo.LoginInfoVO" >
+    update user_login_history_t
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        Last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastQuitTime != null" >
+        last_quit_time = #{lastQuitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.husky.account.login.vo.LoginInfoVO" >
+    update user_login_history_t
+    set account = #{account,jdbcType=VARCHAR},
+      Last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_quit_time = #{lastQuitTime,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

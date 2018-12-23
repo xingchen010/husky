@@ -22,6 +22,7 @@
 			<groupId>com.xchen</groupId>
 			<artifactId>husky-account</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.xchen</groupId>
 			<artifactId>husky-dao</artifactId>
@@ -30,16 +31,39 @@
 			<groupId>com.xchen</groupId>
 			<artifactId>husky-config</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.xchen</groupId>
+			<artifactId>husky-shiro</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<!-- <exclusions> <exclusion> <groupId>org.springframework.boot</groupId> 
-				<artifactId>spring-boot-starter-tomcat</artifactId> </exclusion> </exclusions> -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>se.jiderhamn.classloader-leak-prevention</groupId>
+			<artifactId>classloader-leak-prevention-servlet</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 	</dependencies>
-	
-	
+
+
 	<build>
 		<finalName>husky-web</finalName>
 		<resources>
@@ -58,6 +82,13 @@
 					<include>**/*.xml</include>
 				</includes>
 				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>${project.basedir}/conf</directory>
+				<includes>
+					<include>*.properties</include>
+					<include>*.json</include>
+				</includes>
 			</resource>
 		</resources>
 		<!--maven的插件 -->
@@ -84,9 +115,12 @@
 					<artifactId>tomcat7-maven-plugin</artifactId>
 					<version>2.2</version>
 					<configuration>
+						<url>http://106.12.112.54/manager/text</url>
+						<username>admin</username>
+						<password>swq123</password>
+						<update>true</update>
 						<path>/</path>
-						<port>80</port>
-						<server>tomcat7</server>
+						<!-- <port>80</port> <server>tomcat7</server> -->
 					</configuration>
 					<executions>
 						<execution>
@@ -96,6 +130,14 @@
 							</goals>
 						</execution>
 					</executions>
+					<dependencies>
+						<!-- tomcat7的el-api2.2版本太低，替换成高版本的 -->
+						<dependency>
+							<groupId>javax.el</groupId>
+							<artifactId>javax.el-api</artifactId>
+							<version>3.0.0</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
